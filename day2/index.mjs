@@ -46,23 +46,17 @@ export const part2 = async () => {
 
     const input = await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8'))
 
-    let workingSet = _.map(_.split(input, '\n'), i => { return parseInt(i)} )
-    workingSet.sort((a, b) => { return a-b })
+    // Omit all lines with invalid passwords
+    const answer = _.filter(_.split(input, '\n'), line => {
+        const match = line.match(/([0-9]*)-([0-9]*) ([a-z]*): ([^$]*)$/)
+        match.shift()
+        
+        let [first, second, char, passwd] = match
+        first -= 1
+        second -= 1
 
-    const calculator = () => {
-
-        for (let i = 0; i < workingSet.length; i += 1) {
-            for (let j = i + 1; j < workingSet.length; j += 1) {
-                for (let k = workingSet.length - 1; k > j; k -= 1) {
-                    if (workingSet[i] + workingSet[j] + workingSet[k] === 2020) {
-                        return workingSet[i] * workingSet[j] * workingSet[k]
-                    }
-                }
-            }
-        }
-    }
-
-    const answer = calculator()
+        return passwd[first] === char ^ passwd[second] === char
+    }).length
 
     process.stdout.write(`day 2, part 2: ${answer} `)
 
