@@ -1,5 +1,4 @@
 
-import { assert } from 'console';
 import { promises } from 'fs';
 
 import _ from 'lodash';
