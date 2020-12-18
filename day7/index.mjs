@@ -12,12 +12,6 @@ export const part1 = async () => {
 
     const rules = (await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8'))).split(/\n/g)
 
-    rules.forEach(rule => {
-        if (rule.indexOf('dim fuchsia') != -1) {
-            //console.log(rule)
-        }
-    })
-
     const findParents = ourBag => {
         rules.filter(rule => {
             return rule.indexOf(ourBag) != -1 && !rule.startsWith(ourBag)
@@ -48,30 +42,23 @@ export const part2 = async () => {
     //const sourcePath = './full'
     const myBag = 'shiny gold'
 
-    let uniqParents = new Set()
+    let counter = 0
 
     const rules = (await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8'))).split(/\n/g)
 
-    rules.forEach(rule => {
-        if (rule.indexOf('dim fuchsia') != -1) {
-            //console.log(rule)
-        }
-    })
-
-    const findParents = ourBag => {
+    const findChildren = ourBag => {
         rules.filter(rule => {
-            return rule.indexOf(ourBag) != -1 && !rule.startsWith(ourBag)
+            return rule.indexOf(ourBag) != -1 && rule.startsWith(ourBag)
         }).forEach(ourBagRule => {
-            const ruleset = ourBagRule.match(/^([^\.]*) bags? contains? ([^\.]*)\.$/)
-            const parentBag = ruleset[1]
-            uniqParents.add(parentBag)
-            findParents(parentBag)
+            const ruleset = ourBagRule.match(/^([^\.]*) bags? contains? ([0-9]* [^\.]*)\.$/)
+            const children = ruleset.splice(1)
+            console.log(children)
         })
     }
 
-    findParents(myBag)
+    findChildren(myBag)
 
-    process.stdout.write(`day 7, part 1: ${uniqParents.size} `)
+    process.stdout.write(`day 7, part 2: ${counter} `)
 
     const key = parseInt(await(promises.readFile(new URL(`${sourcePath}.1.key`, import.meta.url), 'utf-8')))
     if (key === uniqParents.size) {
