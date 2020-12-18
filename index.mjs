@@ -8,7 +8,6 @@ import {part1 as day6part1, part2 as day6part2} from './day6/index.mjs'
 import {part1 as day7part1, part2 as day7part2} from './day7/index.mjs'
 
 const run = async () => {
-    /*
     await day1part1()
     await day1part2()
     await day2part1()
@@ -22,7 +21,6 @@ const run = async () => {
     await day6part1()
     await day6part2()
     await day7part1()
-    */
     await day7part2()
 }
 
