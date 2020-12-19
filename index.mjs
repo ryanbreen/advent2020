@@ -2,7 +2,7 @@
 import {part1 as day1part1, part2 as day1part2} from './day1/index.mjs'
 import {part1 as day2part1, part2 as day2part2} from './day2/index.mjs'
 import {part1 as day3part1, part2 as day3part2} from './day3/index.mjs'
-import {part1 as day4part1, part2 as day4part2} from './day4/index.mjs'
+import day4 from './day4/index.mjs'
 import day5 from './day5/index.mjs'
 import day6 from './day6/index.mjs'
 import day7 from './day7/index.mjs'
@@ -41,6 +41,7 @@ const runAll = async () => {
     await day5part1()
     await day5part2()
     */
+    await run(day4)
     await run(day5)
     await run(day6)
     await run(day7)
