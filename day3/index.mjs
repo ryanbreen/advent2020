@@ -1,8 +1,4 @@
 
-import { promises } from 'fs';
-
-import _ from 'lodash';
-
 const calculateTreesHit = (slope, mx, my) => {
     let x = mx
     let treesHit = 0
@@ -22,56 +18,50 @@ const calculateTreesHit = (slope, mx, my) => {
     return treesHit
 }
 
-export const part1 = async () => {
+const parts = [{
+    name: 'day 3, part 1',
 
-    // Source
-    //const sourcePath = './sample'
-    const sourcePath = './full'
+    workloads: [{
+        path: 'day3/sample.csv',
+        output: 7
+    },{
+        path: 'day3/full.csv',
+        output: 176
+    }],
 
-    const slope = _.split(await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8')), '\n')
+    run: async (input) => {
+        const slope = input.split('\n')
+        return calculateTreesHit(slope, 3, 1)
+    }
+},{
+    name: 'day 3, part 2',
 
-    const treesHit = calculateTreesHit(slope, 3, 1)
+    workloads: [{
+        path: 'day3/sample.csv',
+        output: 336
+    },{
+        path: 'day3/full.csv',
+        output: 5872458240
+    }],
+    
+    run: async (input) => {
+        const slope = input.split('\n')
+        const paces = [
+            [1, 1],
+            [3, 1],
+            [5, 1],
+            [7, 1],
+            [1, 2]
+        ]
+    
+        const treesHit = paces.map(pace => {
+            return calculateTreesHit(slope, pace[0], pace[1])
+        })
+    
+        return treesHit.reduce((product, treesHitOnSlope) => {
+            return product * treesHitOnSlope
+        })
+    }
+}]
 
-    process.stdout.write(`day 3, part 1: ${treesHit} `)
-
-    const key = parseInt(await(promises.readFile(new URL(`${sourcePath}.1.key`, import.meta.url), 'utf-8')))
-    if (key === treesHit) {
-        console.log("✅")
-    } else {
-        console.log("❌")
-    } 
-}
-
-export const part2 = async () => {
-
-    // Source
-    //const sourcePath = './sample'
-    const sourcePath = './full'
-
-    const slope = _.split(await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8')), '\n')
-
-    const paces = [
-        [1, 1],
-        [3, 1],
-        [5, 1],
-        [7, 1],
-        [1, 2]
-    ]
-
-    const treesHit = _.map(paces, (pace) => {
-        return calculateTreesHit(slope, pace[0], pace[1])
-    })
-
-    const product = _.reduce(treesHit, (product, treesHitOnSlope) => {
-        return product * treesHitOnSlope
-    })
-
-    process.stdout.write(`day 3, part 1: ${product} `)
-
-    const key = parseInt(await(promises.readFile(new URL(`${sourcePath}.2.key`, import.meta.url), 'utf-8')))
-    if (key === product) {
-        console.log("✅")
-    } else {
-        console.log("❌")
-    } 
-}
+export default parts
