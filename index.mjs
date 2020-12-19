@@ -7,6 +7,7 @@ import day5 from './day5/index.mjs'
 import day6 from './day6/index.mjs'
 import day7 from './day7/index.mjs'
 import day8 from './day8/index.mjs'
+import day9 from './day9/index.mjs'
 
 import { promises } from 'fs';
 
@@ -38,6 +39,7 @@ const runAll = async () => {
     await run(day6)
     await run(day7)
     await run(day8)
+    await run(day9)
 }
 
 runAll();
