@@ -1,6 +1,6 @@
 
 const parts = [{
-    name: 'day 2, part 1',
+    name: 'day 1, part 1',
 
     workloads: [{
         path: 'day1/sample.csv',
@@ -29,7 +29,7 @@ const parts = [{
         return calculator()
     }
 },{
-    name: 'day 2, part 2',
+    name: 'day 1, part 2',
 
     workloads: [{
         path: 'day1/sample.csv',
