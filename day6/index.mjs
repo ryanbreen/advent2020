@@ -1,55 +1,53 @@
 
-import { promises } from 'fs';
+const parts = [{
+    name: 'day 6, part 1',
 
-import _ from 'lodash';
+    workloads: [{
+        path: 'day6/sample.csv',
+        output: 11
+    }, {
+        path: 'day6/full.csv',
+        output: 6587
+    }],
 
-export const part1 = async () => {
+    run: async (input) => {
+        const groups = input.split('\n\n')
 
-    // Source
-    //const sourcePath = './sample'
-    const sourcePath = './full'
-
-    const groups = _.split(await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8')), '\n\n')
-
-    const answer = _.reduce(groups, (sum, group) => {
-        // Count unique characters
-        const groupEntries = [...group.replace(/\n/g, '')]
-        return sum += _.uniq(groupEntries).length
-    }, 0)
-
-    process.stdout.write(`day 6, part 1: ${answer} `)
-
-    const key = parseInt(await(promises.readFile(new URL(`${sourcePath}.1.key`, import.meta.url), 'utf-8')))
-    if (key === answer) {
-        console.log("✅")
-    } else {
-        console.log("❌")
+        return groups.reduce((sum, group) => {
+            // Count unique characters
+            const groupEntries = [...group.replace(/\n/g, '')]
+            return sum + [ ...new Set(groupEntries)].length
+        }, 0)
     }
-}
+},{
 
-export const part2 = async () => {
+    name: 'day 6, part 2',
 
-    // Source
-    //const sourcePath = './sample'
-    const sourcePath = './full'
+    workloads: [{
+        path: 'day6/sample.csv',
+        output: 6
+    }, {
+        path: 'day6/full.csv',
+        output: 3235
+    }],
+    
+    run: async (input) => {
+        const groups = input.split('\n\n')
 
-    const groups = _.split(await(promises.readFile(new URL(`${sourcePath}.csv`, import.meta.url), 'utf-8')), '\n\n')
+        return groups.reduce((sum, group) => {
+            const members = group.split('\n')
+            const answers = members.map(member => {
+                return [...member]
+            })
 
-    const answer = _.reduce(groups, (sum, group) => {
-        // Count unique characters
-        const members = _.split(group, '\n')
-        const answers = _.map(members, member => {
-            return [...member]
-        })
-        return sum += _.intersection(...answers).length
-    }, 0)
-
-    process.stdout.write(`day 6, part 2: ${answer} `)
-
-    const key = parseInt(await(promises.readFile(new URL(`${sourcePath}.2.key`, import.meta.url), 'utf-8')))
-    if (key === answer) {
-        console.log("✅")
-    } else {
-        console.log("❌")
+            let intersections = answers[0]
+            const candidates = answers.slice(1)
+            candidates.forEach(candidate => {
+                intersections = intersections.filter(x => candidate.includes(x))
+            })
+            return sum + intersections.length
+        }, 0)
     }
-}
+}]
+
+export default parts
