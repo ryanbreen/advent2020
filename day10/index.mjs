@@ -33,16 +33,59 @@ const parts = [{
 },{
     name: 'day 10, part 2',
 
-    workloads: [/*{
-        path: 'day9/sample.csv',
-        output: 62
+    workloads: [{
+        path: 'day10/sample.csv',
+        output: 8
     },{
-        path: 'day9/full.csv',
-        output: 8249240
-    }*/],
+        path: 'day10/sample_2.csv',
+        output: 19208
+    },{
+        path: 'day10/full.csv',
+        output: 1020301023010,
+    }],
     
     run: async (input) => {
-        const numbers = input.split('\n').map(num => { return parseInt(num)})
+        const numbers = input.split('\n').map(num => { return parseInt(num)}).sort((a, b) => a - b)
+
+        let counter = 0
+        numbers.unshift(0)
+        numbers.push(numbers[numbers.length-1] + 3)
+
+        const validateSublist = (startIdx) => {
+            let distance = -1
+            let diff = 0
+
+            while (true) {
+
+                if (startIdx + distance < 0) {
+                    return
+                }
+
+                diff = numbers[startIdx] - numbers[startIdx + distance]
+                //console.log(`${startIdx} ${distance} ${diff}`)
+                if (diff > 3) return
+
+                if (startIdx + distance === 0) {
+                    counter += 1
+
+                    if (counter % 100000000 === 0) {
+                        console.log(counter)
+                    }
+
+                    return
+                }
+    
+                // Traverse into the sublist
+                validateSublist(startIdx + distance)
+
+                distance -= 1
+                
+            }
+        }
+
+        validateSublist(numbers.length - 1, numbers[numbers.length-1])
+
+        return counter
     }
 }]
 
