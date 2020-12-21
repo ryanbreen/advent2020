@@ -41,7 +41,7 @@ const parts = [{
         output: 19208
     },{
         path: 'day10/full.csv',
-        output: 1020301023010,
+        output: 42313823813632,
     }],
     
     run: async (input) => {
@@ -49,43 +49,29 @@ const parts = [{
 
         let counter = 0
         numbers.unshift(0)
-        numbers.push(numbers[numbers.length-1] + 3)
 
-        const validateSublist = (startIdx) => {
-            let distance = -1
-            let diff = 0
+        const memos = new Array(numbers.length)
+        memos[numbers.length - 1] = 1 // There is one path from the last node to our device
 
-            while (true) {
+        // Starting from the end of the array, create a memo of the number of valid hops
+        // from that level.
+        for (let i = numbers.length - 2; i >= 0; --i) {
 
-                if (startIdx + distance < 0) {
-                    return
+            memos[i] = 0
+            const cur = numbers[i]
+
+            const checkDepth = depth => {
+                if (i + depth < numbers.length && numbers[i + depth] - cur <= 3) {
+                    memos[i] += memos[i + depth]
                 }
-
-                diff = numbers[startIdx] - numbers[startIdx + distance]
-                //console.log(`${startIdx} ${distance} ${diff}`)
-                if (diff > 3) return
-
-                if (startIdx + distance === 0) {
-                    counter += 1
-
-                    if (counter % 100000000 === 0) {
-                        console.log(counter)
-                    }
-
-                    return
-                }
-    
-                // Traverse into the sublist
-                validateSublist(startIdx + distance)
-
-                distance -= 1
-                
             }
+
+            checkDepth(1)
+            checkDepth(2)
+            checkDepth(3)
         }
 
-        validateSublist(numbers.length - 1, numbers[numbers.length-1])
-
-        return counter
+        return memos[0]
     }
 }]
 
