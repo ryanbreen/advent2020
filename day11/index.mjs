@@ -131,8 +131,6 @@ const parts = [{
         ]
 
         const rayCast = (y, x, operationY, operationX) => {
-            //console.log(`Looking from ${y},${x} in direction ${operationY},${operationX}`)
-
             while (true) {
                 // Perform the operations
                 switch(operationY) {
